@@ -17,12 +17,8 @@ exports.getProductById = async (id) => {
 };
 
 exports.createProduct = async (data) => {
-    const product = await prisma.product.create({
-        data: {
-            title: data.title,
-            price: Number(data.price),
-        },
-    });
-
+    const product = await prisma.product.create({ data });
     return product;
 };
+
+

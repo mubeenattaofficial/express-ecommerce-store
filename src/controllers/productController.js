@@ -1,4 +1,5 @@
 const productService = require("../services/productService");
+const ApiError = require("../utils/ApiError");
 
 exports.get = async (req, res, next) => {
     try {
@@ -21,20 +22,17 @@ exports.getById = async (req, res, next) => {
         const product = await productService.getProductById(req.params.id);
 
         if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found",
-            });
-        }
+            throw new ApiError(404, "Product not found");
+        };
 
         res.status(200).json({
-            success: true,
-            data: product,
-        });
-    }
+        success: true,
+        data: product,
+    });
+}
     catch (error) {
-        next(error);
-    }
+    next(error);
+}
 };
 
 exports.create = async (req, res, next) => {
@@ -52,17 +50,3 @@ exports.create = async (req, res, next) => {
     }
 };
 
-exports.create = async (res, res, next) => {
-    try {
-        const product = await productService.createProduct(req.body);
-
-        res.status(201).json({
-            success: true,
-            message: "Product Created Successfully",
-            data: product,
-        });
-    }
-    catch (error) {
-        next(error);
-    }
-};
